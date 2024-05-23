@@ -9,7 +9,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;400&display=swap" rel="stylesheet">
-    
 </head>
 <body>
     <div class="container">
@@ -20,27 +19,33 @@
             </span>
             <img th:src="@{/images/TourGuide Logo.png}" class="title" alt="TourGuideFont">
         </a>
-        
-        
+
         <!--Formulario-->
-        <div class="login-section">
+        <form action="#" method="post" class="login-section">
             <h1 class="login-title">Inicio de Sesión</h1>
             <p class="login-subtitle">Inicia sesión con tu cuenta de TourGuide</p>
-            <br>
-
-            <!-- ingresar email -->
-            <label for="email">Email</label>
-            <input type="text" id="email" placeholder="example@mail.com">
             
-            <!--ingresar password-->
+            <!-- Mostrar mensaje de error en el campo de email si existe -->
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email" placeholder="example@mail.com" 
+                   class="input-field" th:classappend="${emailError} ? 'input-error'" required>
+            <div th:if="${emailError}" class="error-message">
+                <p th:text="${emailError}"></p>
+            </div>
+            
+            <!-- Mostrar mensaje de error en el campo de password si existe -->
             <div class="password-group">
                 <label for="password">Password</label>
                 <div class="password-container">
-                    <input type="password" id="password" placeholder="Introduce tu contraseña">
+                    <input type="password" id="password" name="password" placeholder="Introduce tu contraseña" 
+                           class="input-field" th:classappend="${passwordError} ? 'input-error'" required>
                     <label for="showPassword" id="showPasswordIcon" class="password-toggle">
                         <input type="hidden" id="showPassword">
                         <i class="fas fa-eye"></i>
                     </label>
+                </div>
+                <div th:if="${passwordError}" class="error-message">
+                    <p th:text="${passwordError}"></p>
                 </div>
             </div>
 
@@ -48,12 +53,12 @@
             <br>
 
             <!-- Botón de entrar -->
-            <a th:href="@{/inicioTourGuide.html}" class="login-button">
+            <button type="submit" class="login-button" th:classappend="${#strings.isEmpty(emailError) && #strings.isEmpty(passwordError)} ? '' : 'error-button'">
                 <img th:src="@{/images/textura-viajes.JPG}" alt="Textura Viajes">
                 <span class="Entrar-title">Entrar</span>
-            </a>
+            </button>
             
-            <p class="account-option">¿No tienes cuenta? <span class="change-option"><a th:href="@{/crear_cuenta.html}">Crea una</a></span></p>
+            <p class="account-option">¿No tienes cuenta? <span class="change-option"><a th:href="@{/TourGuide/register}">Crea una</a></span></p>
 
             <br>
         
@@ -77,7 +82,7 @@
                 y 
                 <a href="enlace_terminos_uso.html" target="_blank">Términos de uso</a>.
             </p>
-        </div>
+        </form>
     </div>
 
     <!-- SCRIPT PASSWORD -->
@@ -108,4 +113,7 @@
     </script>
 </body>
 </html>
+
+
+
 

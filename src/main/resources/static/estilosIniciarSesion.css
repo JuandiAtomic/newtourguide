@@ -264,6 +264,26 @@ input {
     padding: 8px;
 }
 
+.error-message {
+    font-size: 12px;
+    width: 100%;
+    font-style: italic;
+    color: red;
+    font-weight: bold;
+    
+}
+
+.input-error {
+    border-color: red;
+    background-color: #ffe6e6; /* Rojo claro para fondo */
+}
+
+.error-button {
+    background-color: #a52a2a; /* Un color rojo oscuro */
+}
+
+
+
 
 
 
