@@ -9,11 +9,10 @@ import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import java.util.Date;
 
-
-
 @Entity
 @Table
 public class UserEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -27,8 +26,26 @@ public class UserEntity {
     private Date birthDate;
     private String country;
     private String city;
-    
+    private String verificationCode;
+    private boolean status;
+
     // Constructor, getters y setters
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
 
     public String getPersonalId() {
         return personalId;
@@ -61,8 +78,7 @@ public class UserEntity {
     public void setCity(String city) {
         this.city = city;
     }
-    
-    
+
     public String getNumber() {
         return number;
     }
@@ -70,7 +86,6 @@ public class UserEntity {
     public void setNumber(String number) {
         this.number = number;
     }
-    
 
     public Long getId() {
         return id;
@@ -111,6 +126,5 @@ public class UserEntity {
     public void setPassword(String password) {
         this.password = password;
     }
-    
-    
+
 }

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verification Page</title>
+    <link rel="stylesheet" th:href="@{'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css'}">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="stylesheet" th:href="@{~/Styles.css}" />
+    <link rel="stylesheet" th:href="@{~/estiloVerificationPage.css}" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;400&display=swap" rel="stylesheet" />
+</head>
+<body>
+    <div class="worldimage">
+        <img th:src="@{/images/WorldImage.png}" alt="World Image">
+    </div>
+    <div class="verification-container">
+        <div class="title">
+            <h1 class="first-title">¡Estás a un solo paso!</h1>
+            <p class="subtitle">
+                ¡Bienvenido a TourGuide viajero! Para poder continuar, digita el código
+                de verificación enviado a tu correo electrónico que indicaste
+                anteriormente.
+            </p>
+            <br />
+        </div>
+        <br />
+        <br />
+        <div>
+            <h1 class="second-title">Código de verificación</h1>
+        </div>
+
+        <!-- Mensaje de error -->
+        <div th:if="${verificationError}" class="error-message">
+            <p th:text="${verificationError}"></p>
+        </div>
+
+        <form id="codigoForm" th:action="@{/TourGuide/verification}" method="POST">
+            <div class="codigo">
+                <input type="text" name="digito1" maxlength="1" class="digito-input" />
+                <input type="text" name="digito2" maxlength="1" class="digito-input" />
+                <input type="text" name="digito3" maxlength="1" class="digito-input" />
+                <input type="text" name="digito4" maxlength="1" class="digito-input" />
+                <input type="text" name="digito5" maxlength="1" class="digito-input" />
+                <input type="text" name="digito6" maxlength="1" class="digito-input" />
+
+                <!-- Campo oculto para el código de verificación -->
+                <input type="hidden" id="verificationCode" name="verificationCode" />
+            </div>
+        </form>
+    </div>
+    <footer>
+        <div class="tricode">
+            <p>TriCode TM</p>
+        </div>
+    </footer>
+</body>
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("codigoForm");
+        const inputs = document.querySelectorAll(".digito-input");
+
+        // Función para concatenar los valores de los campos de entrada
+        function concatVerificationCode() {
+            let code = "";
+            inputs.forEach(input => {
+                code += input.value.trim(); // Concatenar el valor de cada campo, eliminando espacios en blanco
+            });
+            return code;
+        }
+
+        inputs.forEach((input, index) => {
+            input.addEventListener("input", (e) => {
+                // Solo permitir números
+                if (!/^\d$/.test(e.target.value)) {
+                    e.target.value = "";
+                    return;
+                }
+                if (e.target.value.length === 1) {
+                    if (index < inputs.length - 1) {
+                        inputs[index + 1].focus();
+                    } else {
+                        // Todos los campos están llenos, enviar el formulario con el código de verificación concatenado
+                        document.getElementById("verificationCode").value = concatVerificationCode();
+                        form.submit();
+                    }
+                }
+            });
+            input.addEventListener("keydown", (e) => {
+                // Permitir solo números, tecla de retroceso y tecla de flecha izquierda/derecha
+                if (!/^\d$/.test(e.key) && e.key !== "Backspace" && e.key !== "ArrowLeft" && e.key !== "ArrowRight") {
+                    e.preventDefault();
+                }
+                if (e.key === "Backspace" && index > 0 && !input.value) {
+                    inputs[index - 1].focus();
+                }
+            });
+        });
+    });
+</script>
+</html>
+
+
+
+
+
