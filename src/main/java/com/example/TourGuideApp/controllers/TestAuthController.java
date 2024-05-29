@@ -1,13 +1,26 @@
 package com.example.TourGuideApp.controllers;
 
+import com.example.TourGuideApp.persistence.entity.RoleEntity;
 import com.example.TourGuideApp.persistence.entity.UserEntity;
+import com.example.TourGuideApp.persistence.entity.repository.RoleRepository;
 import com.example.TourGuideApp.persistence.entity.repository.UserRepository;
 import com.example.TourGuideApp.service.EmailAlreadyExistsException;
 import com.example.TourGuideApp.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.security.Principal;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/TourGuide")
@@ -18,6 +31,9 @@ public class TestAuthController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @GetMapping("/register")
     public String showRegisterForm() {
@@ -31,7 +47,6 @@ public class TestAuthController {
             redirectAttributes.addFlashAttribute("registerSuccess", "Registro exitoso. Revisa tu correo para el código de verificación.");
             return "redirect:/TourGuide/verification"; // Redirecciona a la página de verificación después del registro exitoso
         } catch (EmailAlreadyExistsException e) {
-            // Manejar la excepción si es necesario
             redirectAttributes.addFlashAttribute("emailError", "El correo electrónico ya está en uso.");
             return "redirect:/TourGuide/register"; // Redirecciona de nuevo al formulario de registro con un mensaje de error
         }
@@ -43,16 +58,32 @@ public class TestAuthController {
     }
 
     @PostMapping("/verification")
-    public String verifyCode(@RequestParam("verificationCode") String verificationCode, RedirectAttributes redirectAttributes) {
-        UserEntity user = userService.findByVerificationCode(verificationCode);
+    public String verifyUser(@RequestParam("email") String email, @RequestParam("verificationCode") String verificationCode, RedirectAttributes redirectAttributes) {
+        UserEntity user = userService.findByEmail(email);
+
         if (user != null && user.getVerificationCode().equals(verificationCode)) {
-            user.setStatus(true); // Mark the user as verified
+            user.setStatus(true); // Marcar como verificado
+
+            // Asignar el rol USER
+            Optional<RoleEntity> userRoleOptional = roleRepository.findByName("ROLE_USER");
+            if (userRoleOptional.isPresent()) {
+                RoleEntity userRole = userRoleOptional.get();
+                Set<RoleEntity> roles = new HashSet<>();
+                roles.add(userRole);
+                user.setRoles(roles);
+            }
+
             userService.updateUser(user);
-            return "redirect:/TourGuide/registro-exitoso"; // Redirecciona a la página de confirmación después de la verificación exitosa
-        } else {
-            redirectAttributes.addFlashAttribute("verificationError", "Código de verificación inválido. Inténtelo de nuevo.");
-            return "redirect:/TourGuide/verification"; // Redirecciona de nuevo a la página de verificación con un mensaje de error
+
+            // Autenticar automáticamente al usuario
+            Authentication authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            return "redirect:/TourGuide/complete-info"; // Redireccionar después de la verificación
         }
+
+        redirectAttributes.addFlashAttribute("error", "Código de verificación incorrecto.");
+        return "redirect:/TourGuide/verification";
     }
 
     @GetMapping("/registro-exitoso")
@@ -67,8 +98,8 @@ public class TestAuthController {
 
     @PostMapping("/login")
     public String loginUser(@RequestParam("email") String email,
-            @RequestParam("password") String password,
-            RedirectAttributes redirectAttributes) {
+                            @RequestParam("password") String password,
+                            RedirectAttributes redirectAttributes) {
         boolean hasError = false;
 
         if (email.isEmpty()) {
@@ -105,3 +136,4 @@ public class TestAuthController {
         return "redirect:/TourGuide/mi-cuenta"; // Redirecciona a la página de inicio después del inicio de sesión exitoso
     }
 }
+

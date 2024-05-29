@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Completa tu perfil</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+              integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+              crossorigin="anonymous" referrerpolicy="no-referrer"/>
+        <link rel="stylesheet" th:href="@{/css/estiloCompleteInfo.css}"/>
+        <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;400&display=swap" rel="stylesheet"/>
+    </head>
+    <body>
+        <div class="complete-info-container">
+            <div class="title">
+                <h1 class="first-title">Completa tu perfil</h1>
+                <p class="subtitle">
+                    Completa tu perfil para sacarle el máximo
+                    <br />
+                    a tus experiencias.
+                </p>
+            </div>
+
+            <form th:action="@{/TourGuide/complete-info}" method="post">
+                <input type="hidden" th:field="*{email}" />
+
+                <div class="formulario">
+                    <div class="profile-info">
+                        <div class="photo-container">
+                            <div class="photo">
+                                <img th:src="@{/images/user image deafult.jpg}" alt="Añade una foto de perfil"/>
+                            </div>
+                            <div class="add-photo">
+                                <a href="#" id="add-photo-link">
+                                    <p>
+                                        Añade una foto
+                                        <br />
+                                        de perfil
+                                    </p>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="section2">
+                            <div class="username-container">
+                                <div class="username">
+                                    <label for="username">Nombre de usuario:</label>
+                                    <input type="text" id="username" th:field="*{username}" placeholder="Ejemplo AlexPro785" />
+                                </div>
+                                <div class="edit-username">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </div>
+                            </div>
+
+                            <br />
+
+                            <div class="full-name">
+                                <p th:text="${user.firstName + ' ' + user.lastName}"></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="other-info">
+                        <label for="personalId">Número cédula</label>
+                        <input type="text" id="personalId" th:field="*{personalId}" placeholder="Digita tu número de identificación ciudadana" oninput="validateNumberInput(this)"/>
+
+                        <label for="number">Teléfono</label>
+                        <input type="text" id="number" th:field="*{number}" placeholder="Digita tu número de teléfono" oninput="validateNumberInput(this)"/>
+
+                        <label for="birthDate">Fecha de Nacimiento</label>
+                        <input type="date" id="birthDate" th:field="*{birthDate}"/>
+
+                        <label for="country" class="country-label">País</label>
+                        <input type="text" id="country" th:field="*{country}" placeholder="País de residencia"/>
+
+                        <label for="city" class="country-label">Ciudad</label>
+                        <input type="text" id="city" th:field="*{city}" placeholder="Ciudad de residencia"/>
+                    </div>
+                </div>
+
+                <button type="submit" class="complete-button">
+                    <img th:src="@{/images/textura-viajes.JPG}" alt="Textura Viajes" />
+                    <span class="Entrar-title">¡Explorar!</span>
+                </button>
+            </form>
+        </div>
+
+        <footer>
+            <p class="terms-text">
+                Al continuar aceptas nuestras
+                <a href="enlace_politicas_privacidad.html" target="_blank"
+                   >Políticas de privacidad</a
+                >
+                y
+                <a href="enlace_terminos_uso.html" target="_blank">Términos de uso</a>.
+            </p>
+            <div class="tricode">
+                <p>TriCode TM</p>
+            </div>
+        </footer>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var addPhotoLink = document.getElementById("add-photo-link");
+                addPhotoLink.addEventListener("click", function (event) {
+                    event.preventDefault(); // Para evitar que el enlace siga el href
+                    // Aquí puedes ejecutar la función que desees, por ejemplo, mostrar un cuadro de diálogo para seleccionar una imagen
+                    console.log("Haz clic en añadir foto");
+                });
+            });
+        </script>
+        <script>
+            function validateNumberInput(input) {
+                // Reemplaza cualquier carácter que no sea un número con una cadena vacía
+                input.value = input.value.replace(/[^0-9]/g, "");
+            }
+        </script>
+    </body>
+</html>

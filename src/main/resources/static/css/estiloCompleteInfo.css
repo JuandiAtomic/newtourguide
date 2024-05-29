@@ -1,0 +1,223 @@
+@import url(Styles.css);
+
+body {
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+    background-color: #fff;
+}
+
+.complete-info-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 80px;
+}
+
+.title {
+    margin-left: 120px;
+}
+
+.title h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    font-size: 13px;
+    color: #000000ce;
+}
+
+.formulario {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    text-align: left;
+    margin-top: 20px;
+}
+
+
+.profile-info {
+    display: flex;
+    flex-direction: column; /* Organiza los elementos verticalmente */
+    align-items: center; /* Alinea los elementos horizontalmente */
+    margin-bottom: 20px; /* Añade margen inferior para separar de los demás elementos */
+    align-items: center; /* Alinea los elementos horizontalmente */
+}
+
+
+.photo-container {
+    display: flex;
+    align-items: center; /* Alinea los elementos horizontalmente */
+}
+
+.photo {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    margin-right: 25px; /* Añade margen a la derecha para separar de los demás elementos */
+    overflow: hidden;
+}
+.photo img {
+    width: 100%; /* Ajusta el tamaño de la imagen al 100% del contenedor */
+    height: auto; /* Mantiene la proporción de aspecto de la imagen */
+}
+
+.add-photo {
+    flex: 1; /* Estira este elemento para ocupar el espacio restante */
+}
+
+.add-photo a{
+    font-size: 0.9em;
+    color: #000000bb;
+}
+
+.section2 {
+    display: flex;
+    flex-direction: column;
+    padding-right: 155px;
+    align-items: center;
+    margin-top: -10px;
+    padding-left: 40px;
+}
+
+.username-container{
+    display: flex;
+    align-items: center; /* Alinea los elementos horizontalmente */
+    
+}
+
+.username {
+    font-size: 25px;
+    font-weight: bold;
+    margin-right: 5px;
+    
+}
+
+.edit-username i {
+    font-size: 1em;
+    color: #000;
+    cursor: pointer;
+}
+
+.full-name {
+    font-size: 15px;
+    color: #555;
+    margin-top: -35px;
+
+}
+
+.other-info {
+    display: flex;
+    flex-direction: column;
+    width: 45%;
+}
+
+
+label {
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-style: italic;
+}
+
+
+
+#country, #city {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-style: italic;
+    color: #555;
+}
+
+#birth_date{
+    color: #555;
+}
+
+.place-container{
+    width: 100%;
+    padding-left: 10px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    
+    
+}
+
+.place-container :first-child {
+    margin-right: 15px; /* Agrega un margen derecho solo al primer input */
+}
+
+
+.complete-button {
+    width: 40%;
+    background-color: var(--redTourGuide); 
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 10px;
+    cursor: pointer;
+    display: block; 
+    margin: 10px auto; 
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    text-align: center;
+    margin-bottom: 150px;
+}
+
+.complete-button img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    opacity: 0.8;
+}
+
+.complete-button .Entrar-title {
+    position: relative;
+    z-index: 1;
+}
+
+.complete-button:hover {
+    background-color: rgb(34, 34, 34);
+}
+
+.terms-text {
+    font-size: 12px;
+    color: #555; /* Color del texto */
+    text-align: center;
+}
+
+.terms-text a {
+    color: #007BFF; /* Color del enlace */
+    text-decoration: underline; /* Subrayado en los enlaces */
+}
+
+.tricode p {
+    font-size: 15px;
+    text-align: center;
+    color: rgb(0, 0, 0);
+    
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: transparent;
+    color: #ffffff00;
+    text-align: center;
+    padding: 10px 0; /* Ajusta el espaciado interior según sea necesario */
+}
+
